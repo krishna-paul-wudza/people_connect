@@ -1,10 +1,12 @@
 import React,{ useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Log_In } from '../../Redux/AllSlice/AuthSlice';
+import { useNavigate } from 'react-router-dom';
 
 
 const LogIn = () => {
     let dispatch = useDispatch();
+    const navigate = useNavigate();
 
     let { isLoading,username,password } = useSelector(state => state.auth);
     console.log("data", isLoading,username,password);
@@ -25,7 +27,7 @@ const LogIn = () => {
 
 
 
-        dispatch(Log_In(inputState));
+        dispatch(Log_In({inputState, navigate}));
     }
 
     return (

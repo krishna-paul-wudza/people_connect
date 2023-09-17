@@ -1,10 +1,15 @@
 import React from 'react'
-import { Outlet } from 'react-router-dom'
+import { NavLink, Outlet } from 'react-router-dom'
+import './TopBar.scss'
 
 const Demo = () => {
     return (
         <>
-            <div>Demo</div>
+            <div className='TopBar'>
+                <NavLink to="/log-in">Log in</NavLink>
+                <NavLink to="/registration">Register</NavLink>
+                <NavLink to="/profile">Profile</NavLink>
+            </div>
             <Outlet />
         </>
     )
