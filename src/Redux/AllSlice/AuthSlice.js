@@ -29,12 +29,13 @@ export const Sign_Up = createAsyncThunk("auth/Registration",
     })
 
 export const Log_In = createAsyncThunk("auth/Log_In",
-    async (userdata) => {
+    async ({inputState: userdata, navigate}) => {
         const res = await axios.post(login_api, userdata)
-
+        console.log("Log_In", res);
         if (res.status === 200) {
             window.localStorage.setItem("username", res?.data?.username)
-            redirect('/profile');
+            const redirect_response = navigate("/profile");
+            console.log("redirect_response", redirect_response);
 
         }
         return res?.data;
@@ -55,9 +56,7 @@ export const User_Profile = createAsyncThunk("auth/User_Profile",
 export const AuthSlice = createSlice({
     name: "auth",
     initialState: initial_value,
-
-
-    exreaReducers: (builder) => {
+    extraReducers: (builder) => {
         builder.addCase(Sign_Up.pending, (state, action) => {
             state.isLoading = true;
         })
@@ -76,6 +75,7 @@ export const AuthSlice = createSlice({
             state.isLoading = true;
         })
         builder.addCase(Log_In.fulfilled, (state, action) => {
+            console.log('Log_In fulfiled',state, action)
             state.isLoading = false;
             state.username = action.payload.username;
             state.password = action.payload.password;
