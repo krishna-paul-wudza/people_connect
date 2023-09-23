@@ -21,17 +21,22 @@ const initial_value = {
 
 }
 
-export const Sign_Up = createAsyncThunk("auth/Registration",
-    async (userdata) => {
-        const res = await axios.post(reg_api, userdata)
-        window.localStorage.setItem("username", res?.data?.username);
-        return res?.data;
-    })
+export const Sign_Up = createAsyncThunk(
+  "auth/Registration",
+  async ({ inputState: userdata, navigate }) => {
+    const res = await axios.post(reg_api, userdata);
+    if (res.status === 200) {
+      window.localStorage.setItem("username", res?.data?.username);
+      const redirect_response = navigate("/profile");
+      console.log("redirect_response", redirect_response);
+    }
+    return res?.data;
+  }
+);
 
 export const Log_In = createAsyncThunk("auth/Log_In",
     async ({inputState: userdata, navigate}) => {
         const res = await axios.post(login_api, userdata)
-        console.log("Log_In", res);
         if (res.status === 200) {
             window.localStorage.setItem("username", res?.data?.username)
             const redirect_response = navigate("/profile");
