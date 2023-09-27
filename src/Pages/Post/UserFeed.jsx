@@ -23,7 +23,7 @@ const UserFeed = () => {
         console.log("data submit", inputState);
 
         axios
-            .post(post_api,inputState,{withCredentials:true})
+            .post(post_api,inputState, {withCredentials: true})
 
             .then(res => {
                 alert("post done");

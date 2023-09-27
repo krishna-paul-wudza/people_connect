@@ -24,7 +24,7 @@ const initial_value = {
 export const Sign_Up = createAsyncThunk(
   "auth/Registration",
   async ({ inputState: userdata, navigate }) => {
-    const res = await axios.post(reg_api, userdata);
+    const res = await axios.post(reg_api, userdata, {withCredentials: true});
     if (res.status === 200) {
       window.localStorage.setItem("username", res?.data?.username);
       const redirect_response = navigate("/profile");
@@ -36,7 +36,9 @@ export const Sign_Up = createAsyncThunk(
 
 export const Log_In = createAsyncThunk("auth/Log_In",
     async ({inputState: userdata, navigate}) => {
-        const res = await axios.post(login_api, userdata)
+        const res = await axios.post(login_api, userdata, {
+          withCredentials: true,
+        });
         if (res.status === 200) {
             window.localStorage.setItem("username", res?.data?.username)
             const redirect_response = navigate("/profile");
