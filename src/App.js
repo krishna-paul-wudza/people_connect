@@ -19,5 +19,5 @@ const AppContainer = styled.div`
   justify-content: flex-start;
   align-items: stretch;
   height: 100vh;
-  background-color: ${ThemeColors.MainBackgroundColor};
+  background-color: pink;
 `;
