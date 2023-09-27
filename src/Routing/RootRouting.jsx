@@ -5,6 +5,7 @@ import LogIn from "../Pages/Auth/LogIn";
 import Registration from "../Pages/Auth/Registration";
 import Profile from "../Pages/Profile/Profile";
 import Home from "../Pages/Home";
+import UserFeed from "../Pages/Post/UserFeed";
 const RootRouting = () => {
   return (
     <Router>
@@ -15,6 +16,7 @@ const RootRouting = () => {
         </Route>
         <Route element={<Demo />}>
           <Route path="profile" element={<Profile />} />
+          <Route path="user-feed" element={<UserFeed />} />
           <Route path="log-out" />
         </Route>
       </Routes>

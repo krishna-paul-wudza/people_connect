@@ -9,6 +9,7 @@ const Demo = () => {
                 <NavLink to="/log-in">Log in</NavLink>
                 <NavLink to="/registration">Register</NavLink>
                 <NavLink to="/profile">Profile</NavLink>
+                <NavLink to="/user-feed">Feed</NavLink>
             </div>
             <Outlet />
         </>
