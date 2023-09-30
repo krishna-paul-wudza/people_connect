@@ -1,54 +1,35 @@
-import axios from 'axios';
-import React, { useState } from 'react'
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Outlet, useNavigate } from 'react-router-dom'
 
 const UserFeed = () => {
-
-    const post_api = "http://localhost:5000/api/posts/create";
-    const [inputState, setInput] = useState({
-        text: "",
-        img: ""
-
-    });
-
-    const changeHandeler = (e) => {
-
-        e.persist();
-        let { name, value } = e.target;
-        setInput({ ...inputState, [name]: value })
+    const navigate = useNavigate();
+    const [posts, setPosts] = useState([])
+    const handleCreatePostClick = () => {
+        navigate('/feed/create')
     }
-
-    const submitHandeler = (e) => {
-        e.preventDefault();
-        console.log("collect state", inputState);
-        console.log("data submit", inputState);
-
-        axios
-            .post(post_api,inputState, {withCredentials: true})
-
-            .then(res => {
-                alert("post done");
-                console.log("add res", res);
-                // if (res.data.status === 200) {
-                   
-                // }
-            })
-
-            .catch(err => {
-                alert("error in post");
-                console.log("add err", err);
-            })
-
+    const fetchPosts = async () => {
+        const fetchPostAPI = "http://localhost:5000/api/posts/feed"
+        const response = await axios.get(fetchPostAPI, { withCredentials: true })
+        if (response?.data) {
+            setPosts(response.data.feedPosts);
+        }
     }
-
-    return (
+    useEffect(() => {
+        fetchPosts();
+    }, [])
+  return (
+    <div>
+      <Outlet />
+      <button onClick={handleCreatePostClick}>Create Post</button>
+      {posts?.map((post) => (
         <div>
-            <form onSubmit={submitHandeler}>
-                <input type='text' name='text' onChange={changeHandeler} />
-                <input type='text' name='img' onChange={changeHandeler} />
-                <button type='text'>Post</button>
-            </form>
+          <p>{post.text}</p>
+          <p>{post.img}</p>
         </div>
-    )
-}
+      ))}
+    </div>
+  );
+};
 
-export default UserFeed
+export default UserFeed;
