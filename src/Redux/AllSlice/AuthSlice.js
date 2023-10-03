@@ -1,116 +1,109 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { redirect } from "react-router-dom";
-
-const reg_api = "http://localhost:5000/api/users/signup";
-const login_api = "http://localhost:5000/api/users/login";
-const profile_api = (username) => `http://localhost:5000/api/users/profile/${username}`;
-
+import services from "../../Services";
 
 const initial_value = {
-    isLoading: false,
-    error: null,
-    // API Parameters
-    name: "",
-    email: "",
-    username: "",
-    password: "",
-    profilePic: "",
-    bio: ""
-    // 
+  isAuthenticated: false,
+  // API Parameters
+  name: "",
+  email: "",
+  username: "",
+  profilePic: "",
+  bio: "",
+  _id: "",
+  followers: [],
+  following: [],
+  createdAt: "",
+};
 
-}
-
-export const Sign_Up = createAsyncThunk(
-  "auth/Registration",
-  async ({ inputState: userdata, navigate }) => {
-    const res = await axios.post(reg_api, userdata, {withCredentials: true});
+export const userSignup = createAsyncThunk(
+  "auth/userSignup",
+  async ({ inputState, navigate }) => {
+    const res = await services.register(
+      inputState.name,
+      inputState.email,
+      inputState.username,
+      inputState.password
+    );
     if (res.status === 200) {
       window.localStorage.setItem("username", res?.data?.username);
-      const redirect_response = navigate("/profile");
-      console.log("redirect_response", redirect_response);
+      navigate("/profile");
     }
     return res?.data;
   }
 );
 
-export const Log_In = createAsyncThunk("auth/Log_In",
-    async ({inputState: userdata, navigate}) => {
-        const res = await axios.post(login_api, userdata, {
-          withCredentials: true,
-        });
-        if (res.status === 200) {
-            window.localStorage.setItem("username", res?.data?.username)
-            const redirect_response = navigate("/profile");
-            console.log("redirect_response", redirect_response);
-
-        }
-        return res?.data;
+export const userLogin = createAsyncThunk(
+  "auth/userLogin",
+  async ({ inputState, navigate }) => {
+    const res = await services.login(inputState.username, inputState.password);
+    if (res !== null) {
+      window.localStorage.setItem("username", res.username);
+      navigate("/profile");
     }
-)
+    return res;
+  }
+);
 
-export const User_Profile = createAsyncThunk("auth/User_Profile",
-    async () => {
-        const UserData = window.localStorage.getItem("username");
-        const res = await axios.get(profile_api(UserData))
-        return res?.data;
-
-    }
-)
-
-
+export const syncUserProfile = createAsyncThunk(
+  "auth/syncUserProfile",
+  async () => {
+    const res = await services.getMyProfile();
+    return res?.data;
+  }
+);
 
 export const AuthSlice = createSlice({
-    name: "auth",
-    initialState: initial_value,
-    extraReducers: (builder) => {
-        builder.addCase(Sign_Up.pending, (state, action) => {
-            state.isLoading = true;
-        })
-        builder.addCase(Sign_Up.fulfilled, (state, action) => {
-            console.log("Action", action);
-            state.isLoading = false;
-            state.name = action.payload.name;
-            state.username = action.payload.username;
-            state.email = action.payload.email;
-            state.password = action.payload.password;
-        })
-        builder.addCase(Sign_Up.rejected, (state, action) => {
-            state.isLoading = false;
-        })
-        builder.addCase(Log_In.pending, (state, action) => {
-            state.isLoading = true;
-        })
-        builder.addCase(Log_In.fulfilled, (state, action) => {
-            console.log('Log_In fulfiled',state, action)
-            state.isLoading = false;
-            state.username = action.payload.username;
-            state.password = action.payload.password;
-
-        })
-        builder.addCase(Log_In.rejected, (state, action) => {
-            state.isLoading = false;
-
-        })
-
-        builder.addCase(User_Profile.pending, (state, action) => {
-            state.isLoading = true;
-        })
-
-        builder.addCase(User_Profile.fulfilled, (state, action) => {
-            console.log("action", action.payload);
-            state.isLoading = false;
-            state.username = action.payload.username;
-            state.name = action.payload.name;
-            state.email = action.payload.email;
-        })
-
-        builder.addCase(User_Profile.rejected, (state, action) => {
-            state.isLoading = false;
-        })
-
-    }
-})
-
-
+  name: "auth",
+  initialState: initial_value,
+  reducers: {
+    updateProfile: (state, action) => {
+      state.isAuthenticated = true;
+      state.name = action.payload.name;
+      state.username = action.payload.username;
+      state.email = action.payload.email;
+      state._id = action.payload._id;
+      state.bio = action.payload.bio;
+      state.followers = action.payload.followers;
+      state.following = action.payload.following;
+      state.profilePic = action.payload.profilePic;
+      state.createdAt = action.payload.createdAt;
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(userSignup.fulfilled, (state, action) => {
+      state.isAuthenticated = true;
+      state.name = action.payload.name;
+      state.username = action.payload.username;
+      state.email = action.payload.email;
+      state._id = action.payload._id;
+    });
+    builder.addCase(userSignup.rejected, (state, action) => {
+      state.isAuthenticated = false;
+    });
+    builder.addCase(userLogin.fulfilled, (state, action) => {
+      state.isAuthenticated = true;
+      state.name = action.payload.name;
+      state.username = action.payload.username;
+      state.email = action.payload.email;
+      state._id = action.payload._id;
+    });
+    builder.addCase(userLogin.rejected, (state, action) => {
+      state.isAuthenticated = false;
+    });
+    builder.addCase(syncUserProfile.fulfilled, (state, action) => {
+      state.name = action.payload.name;
+      state.username = action.payload.username;
+      state.email = action.payload.email;
+      state._id = action.payload._id;
+      state.bio = action.payload.bio;
+      state.followers = action.payload.followers;
+      state.following = action.payload.following;
+      state.profilePic = action.payload.profilePic;
+      state.createdAt = action.payload.createdAt;
+    });
+  },
+});
+export const { updateProfile } = AuthSlice.actions;
 export default AuthSlice.reducer;

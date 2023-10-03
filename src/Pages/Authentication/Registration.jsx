@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from "react-router-dom";
-import { Sign_Up } from "../../Redux/AllSlice/AuthSlice";
+import { userSignup } from "../../Redux/AllSlice/AuthSlice";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Container, MainLogo, CustomForm, MainLogoURL } from "./commonComponents";
@@ -31,7 +31,7 @@ const Registration = () => {
 
     const submitHandler = (event) => {
         event.preventDefault();
-        dispatch(Sign_Up({inputState, navigate}));
+        dispatch(userSignup({inputState, navigate}));
     }
 
 

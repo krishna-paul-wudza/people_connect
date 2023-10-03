@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Log_In } from "../../Redux/AllSlice/AuthSlice";
+import { userLogin } from "../../Redux/AllSlice/AuthSlice";
 import { NavLink, useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -32,7 +32,7 @@ const LogIn = () => {
   };
   const submitHandler = (event) => {
     event.preventDefault();
-    dispatch(Log_In({ inputState, navigate }));
+    dispatch(userLogin({ inputState, navigate }));
   };
 
   return (

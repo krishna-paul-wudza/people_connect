@@ -3,32 +3,40 @@ import styled from "@emotion/styled";
 import { Outlet } from "react-router";
 
 import IntroBox from "./IntroBox";
+import { useSelector } from "react-redux";
+import { useLocation, Navigate } from 'react-router-dom'
 
-const Home = () => {
+const Layout = () => {
+  const auth = useSelector((state) => state.auth);
+  let location = useLocation();
+
+  if (!!auth.isAuthenticated) {
+    return <Navigate to="/" state={{ from: location }} replace />;
+  }
   return (
-    <HomeContainer>
-      <ContentContainer>
+    <Container>
+      <Content>
         <div>
           <IntroBox />
         </div>
         <div>
           <Outlet />
         </div>
-      </ContentContainer>
-    </HomeContainer>
+      </Content>
+    </Container>
   );
 };
 
-export default Home;
+export default Layout;
 
-const HomeContainer = styled.div`
+const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   flex: 1;
 `;
 
-const ContentContainer = styled.div`
+const Content = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;

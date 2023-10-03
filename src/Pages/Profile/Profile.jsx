@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom'
-import { User_Profile } from "../../Redux/AllSlice/AuthSlice";
+import { syncUserProfile } from "../../Redux/AllSlice/AuthSlice";
 import axios from "axios";
 
 const Profile = () => {
@@ -18,7 +18,7 @@ const Profile = () => {
   const { isLoading, username, name, email } = useSelector((state) => state.auth);
   useEffect(() => {
     fetchPosts();
-    dispatch(User_Profile());
+    dispatch(syncUserProfile());
   }, []);
   return (
     <div>
