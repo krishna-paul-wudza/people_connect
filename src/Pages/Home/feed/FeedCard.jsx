@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { BaseURL } from "../../../Services/constants";
+import { useNavigate } from "react-router-dom";
 /**
  * @typedef {object} FeedCardProps
  * @property {string} _id
@@ -17,10 +18,16 @@ import { BaseURL } from "../../../Services/constants";
  * @returns
  */
 const FeedCard = (props) => {
-  const imageUrl = BaseURL + props.img
-  console.log("imageUrl", imageUrl)
+  const imageUrl = BaseURL + props.img;
+  const navigate = useNavigate();
+  console.log("imageUrl", imageUrl);
+  const handleClick = (e) => {
+    e.preventDefault();
+    const result = navigate("post/" + props._id, { state: props });
+    console.log("FeedCard result", result);
+  };
   return (
-    <Container>
+    <Container onClick={handleClick}>
       <Image src={imageUrl} />
       <Text>{props.text}</Text>
     </Container>

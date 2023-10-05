@@ -15,19 +15,22 @@ import UserFeed from "../Pages/Post/UserFeed";
 import CreatePost from "../Pages/Post/CreatePost";
 import Auth from "../Pages/Authentication";
 import Services from "../Services";
+import { getPostById } from "../Services/getPostById";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route
+        exact
         path=""
-        element={<Home.Layout />}
+        element={<Home.Landing />}
         errorElement={<Navigate to="/log-in" />}
         loader={async () => {
           const response = await Services.getMyProfile();
           return defer({ response });
         }}
-      >
+      />
+      <Route element={<Home.Layout />}>
         <Route
           path="profile"
           element={<Home.Profile />}
@@ -48,6 +51,13 @@ const router = createBrowserRouter(
           }}
         >
           <Route path="create" element={<Home.CreatePost />} />
+          <Route path="post/:postId" element={<Home.PostView />} errorElement={(err) => {
+            <div>{err}</div>
+          }} loader={async ({params}) => {
+            console.log("params.postId", params.postId);
+            const response = await getPostById(params.postId)
+            return defer({response })
+          }} />
         </Route>
       </Route>
       <Route element={<Auth.Layout />}>

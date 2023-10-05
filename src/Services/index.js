@@ -7,6 +7,7 @@ import { followUser } from "./followUser";
 import { getMyPosts } from "./getMyPosts";
 import { getFeedPosts } from "./getFeedPosts";
 import { createPost } from "./createPost";
+import { getPostById } from "./getPostById";
 
 export default {
     login,
@@ -17,5 +18,6 @@ export default {
     followUser,
     getMyPosts,
     getFeedPosts,
-    createPost
+    createPost,
+    getPostById
 }

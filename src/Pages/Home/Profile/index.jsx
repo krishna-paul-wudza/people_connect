@@ -3,41 +3,35 @@ import styled from "@emotion/styled";
 import { useSelector } from "react-redux";
 import { Await, Outlet, useLoaderData } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
+import FeedCard from "../feed/FeedCard";
 
 const Profile = () => {
   const { feed } = useLoaderData();
-  console.log('feed', feed)
+  console.log("feed", feed);
   return (
     <>
       <Container>
         <Outlet />
       </Container>
-      <Container>
-        <Suspense
-          fallback={
-            <Container>
-              <Spinner />
-            </Container>
-          }
-        >
-          <Await
-            resolve={feed}
-            errorElement={<div>Error Occured</div>}
-            children={(feed) => {
-              if (feed.length === 0) {
-                return <div>No posts done by you.</div>;
-              } else {
-                return feed.map((post) => (
-                  <div>
-                    <p>{post.text}</p>
-                    <p>{post.img}</p>
-                  </div>
-                ));
-              }
-            }}
-          />
-        </Suspense>
-      </Container>
+      <Suspense
+        fallback={
+          <Container>
+            <Spinner />
+          </Container>
+        }
+      >
+        <Await
+          resolve={feed}
+          errorElement={<div>Error Occured</div>}
+          children={(feed) => {
+            if (feed.length === 0) {
+              return <div>No posts done by you.</div>;
+            } else {
+              return feed.map((post) => <FeedCard key={post._id} {...post} />);
+            }
+          }}
+        />
+      </Suspense>
     </>
   );
 };

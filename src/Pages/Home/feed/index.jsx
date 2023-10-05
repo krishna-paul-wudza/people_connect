@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 import { Spinner } from "react-bootstrap";
-import { Await, Outlet, useLoaderData } from "react-router-dom";
+import { Await, Outlet, useLoaderData, useLocation } from "react-router-dom";
 import FeedCard from "./FeedCard";
 
 const Feed = () => {

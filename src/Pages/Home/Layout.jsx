@@ -1,42 +1,15 @@
-import React, { Suspense, useEffect } from "react";
+import React from "react";
 import styled from "@emotion/styled";
-import {
-  Await,
-  Navigate,
-  Outlet,
-  useLoaderData,
-  useLocation,
-  redirect,
-} from "react-router-dom";
-import { Spinner } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { updateProfile } from "../../Redux/AllSlice/AuthSlice";
+import { Outlet } from "react-router-dom";
+
+import Header from '../../Routing/Header'
 
 const Layout = () => {
-  const { response } = useLoaderData();
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if (response !== null) dispatch(updateProfile(response));
-  }, [response]);
   return (
-    <Suspense fallback={<Spinner />}>
-      <Await
-        resolve={response}
-        errorElement={<div>Error Occured</div>}
-        children={(response) => {
-          if (response === null) {
-            redirect("/log-in");
-            return null;
-          } else {
-            return (
-              <Container>
-                <Outlet />
-              </Container>
-            );
-          }
-        }}
-      />
-    </Suspense>
+    <Container>
+      <Header />
+      <Outlet />
+    </Container>
   );
 };
 
@@ -49,6 +22,6 @@ const Container = styled.div`
   align-items: stretch;
   padding: 16px 160px;
   flex: 1;
-  background-color: aqua;
+  background-color: pink;
   gap: 16px;
 `;

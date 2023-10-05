@@ -1,6 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-import { redirect } from "react-router-dom";
 import services from "../../Services";
 
 const initial_value = {
@@ -54,6 +52,12 @@ export const syncUserProfile = createAsyncThunk(
   }
 );
 
+export const logoutUser = createAsyncThunk("auth/logoutUser", async (navigate) => {
+  const res = await services.logout();
+  navigate("/log_in");
+  return res?.data;
+});
+
 export const AuthSlice = createSlice({
   name: "auth",
   initialState: initial_value,
@@ -102,6 +106,17 @@ export const AuthSlice = createSlice({
       state.following = action.payload.following;
       state.profilePic = action.payload.profilePic;
       state.createdAt = action.payload.createdAt;
+    });
+    builder.addCase(logoutUser.fulfilled, (state, action) => {
+      state.name = initial_value.name;
+      state.username = initial_value.username;
+      state.email = initial_value.email;
+      state._id = initial_value._id;
+      state.bio = initial_value.bio;
+      state.followers = initial_value.followers;
+      state.following = initial_value.following;
+      state.profilePic = initial_value.profilePic;
+      state.createdAt = initial_value.createdAt;
     });
   },
 });

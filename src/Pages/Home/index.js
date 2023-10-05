@@ -4,6 +4,8 @@ import Profile from "./Profile";
 import Layout from "./Layout";
 import Feed from "./feed";
 import CreatePost from "./feed/CreatePost";
+import Landing from './Landing'
+import PostView from "./feed/PostView";
 
 export default {
   ProfileEdit,
@@ -11,5 +13,7 @@ export default {
   Profile,
   Layout,
   Feed,
-  CreatePost
+  CreatePost,
+  Landing,
+  PostView
 };

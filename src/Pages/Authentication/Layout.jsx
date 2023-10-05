@@ -34,6 +34,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   flex: 1;
+  background-color: pink;
 `;
 
 const Content = styled.div`
