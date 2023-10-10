@@ -70,7 +70,7 @@ const Image = styled.div`
   display: block;
   width: 100%;
   height: auto;
-  min-height: 300px;
+  min-height: 500px;
   position: relative;
   background-image: url(${(props) => props.src});
   background-size: contain;
