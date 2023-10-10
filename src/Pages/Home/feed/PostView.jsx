@@ -1,9 +1,12 @@
-import React, { Suspense, useEffect } from "react";
-import { Await, useLoaderData, Navigate } from "react-router-dom";
+import React, { Suspense } from "react";
+import { Await, useLoaderData } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
+import FeedCard from "./FeedCard";
+import TopBar from "./TopBar";
 
 const PostView = () => {
   const { response } = useLoaderData();
+  console.log({response})
   return (
     <Suspense fallback={<Spinner />}>
       <Await
@@ -11,7 +14,12 @@ const PostView = () => {
         errorElement={<div>Error Occured</div>}
         children={(response) => {
           console.log("PostView response: ", response);
-          return <div>post view</div>;
+          return (
+            <>
+              <TopBar title="View Post" />
+              <FeedCard {...response} />
+            </>
+          );
         }}
       />
     </Suspense>

@@ -28,11 +28,11 @@ import Reply from "./Action/Reply";
 const FeedCard = (props) => {
   const imageUrl = BaseURL + props.img;
   const navigate = useNavigate();
-  console.log("imageUrl", imageUrl);
-  const handleClick = (e) => {
-    e.preventDefault();
-    const result = navigate("post/" + props._id, { state: props });
-    console.log("FeedCard result", result);
+  
+  const handleClick = () => {
+    const postUrl = "/post/" + props._id;
+    console.log("postURL: ", postUrl)
+    navigate(postUrl);
   };
   return (
     <Container>

@@ -21,8 +21,8 @@ const Demo = () => {
       <Title>People Connect</Title>
       {/* <ButtonLink to="/log-in">Log in</ButtonLink>
       <ButtonLink to="/registration">Register</ButtonLink> */}
-      <ButtonLink to="/feed" active={pathname === "/feed"}>Feed</ButtonLink>
-      <ButtonLink to="/profile/view" active={pathname.startsWith("/profile/")}>Profile</ButtonLink>
+      <ButtonLink to="/feed" active={String(pathname === "/feed")}>Feed</ButtonLink>
+      <ButtonLink to="/profile/view" active={String(pathname.startsWith("/profile/"))}>Profile</ButtonLink>
       <ButtonLink onClick={handleLogout}>Log Out</ButtonLink>
     </Container>
   );
@@ -57,7 +57,7 @@ const ButtonLink = styled(NavLink)`
     color: wheat;
   }
   ${(props) =>
-    props.active &&
+    props?.active === "true" &&
     css`
       border-bottom: 4px solid darkgreen;
     `}

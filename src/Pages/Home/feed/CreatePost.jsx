@@ -1,6 +1,7 @@
 import React, { useCallback, useRef, useState } from "react";
 import styled from "@emotion/styled";
 import Services from "../../../Services";
+import TopBar from "./TopBar";
 const CreatePost = () => {
   const inputRef = useRef(null);
   const [imageUrl, setImageUrl] = useState("");
@@ -30,25 +31,28 @@ const CreatePost = () => {
     [text, image]
   );
   return (
-    <Container>
-      <HiddenInput ref={inputRef} type="file" onChange={onImageChange} />
-      {imageUrl.length === 0 ? (
-        <NoImageText onClick={onImageClick}>
-          Please click here to select an image.
-        </NoImageText>
-      ) : (
-        <Image src={imageUrl} onClick={onImageClick} />
-      )}
-      <TextAreaInput
-        rows={6}
-        placeholder="Your thoughts about this"
-        value={text}
-        onChange={handleTextAreaChange}
-      />
-      <Row>
-        <SubmitButton onClick={submitHandler}>Post</SubmitButton>
-      </Row>
-    </Container>
+    <>
+      <TopBar title="Create Post" />
+      <Container>
+        <HiddenInput ref={inputRef} type="file" onChange={onImageChange} />
+        {imageUrl.length === 0 ? (
+          <NoImageText onClick={onImageClick}>
+            Please click here to select an image.
+          </NoImageText>
+        ) : (
+          <Image src={imageUrl} onClick={onImageClick} />
+        )}
+        <TextAreaInput
+          rows={6}
+          placeholder="Your thoughts about this"
+          value={text}
+          onChange={handleTextAreaChange}
+        />
+        <Row>
+          <SubmitButton onClick={submitHandler}>Post</SubmitButton>
+        </Row>
+      </Container>
+    </>
   );
 };
 

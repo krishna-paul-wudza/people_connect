@@ -1,5 +1,5 @@
 import React from "react";
-import styled from '@emotion/styled'
+import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -15,22 +15,22 @@ const Like = (props) => {
   const { likesFrom, postId } = props;
   const navigate = useNavigate();
   const hasUserLiked =
-    Array.isArray(likesFrom) && likesFrom.findIndex((userId) => userId === _id) > -1;
-  console.log({ likesFrom, postId, _id });
+    Array.isArray(likesFrom) &&
+    likesFrom.findIndex((userId) => userId === _id) > -1;
   const handleClickOnLike = async () => {
-    const res = await Services.likePost(postId)
+    const res = await Services.likePost(postId);
     if (res) {
-      navigate(0)
+      navigate(0);
     }
-  }
+  };
   return (
     <Container>
       {hasUserLiked ? (
-        <FavoriteIcon color="#D22B2B" size={30} />
+        <FavoriteIcon style={{ color: "#D22B2B" }} size={30} />
       ) : (
         <FavoriteBorderIcon
           onClick={handleClickOnLike}
-          color="#D22B2B"
+          style={{ color: "#D22B2B" }}
           size={30}
         />
       )}

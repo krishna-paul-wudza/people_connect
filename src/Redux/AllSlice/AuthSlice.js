@@ -27,11 +27,11 @@ export const userSignup = createAsyncThunk(
       inputState.username,
       inputState.password
     );
-    if (res.status === 200) {
-      window.localStorage.setItem("username", res?.data?.username);
+    if (res !== null) {
+      window.localStorage.setItem("username", res.username);
       navigate("/profile");
     }
-    return res?.data;
+    return res;
   }
 );
 

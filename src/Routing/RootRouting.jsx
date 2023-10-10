@@ -1,8 +1,6 @@
 import React from "react";
 import {
   Route,
-  Routes,
-  BrowserRouter as Router,
   defer,
   createBrowserRouter,
   createRoutesFromElements,
@@ -10,9 +8,6 @@ import {
   Navigate,
 } from "react-router-dom";
 import Home from "../Pages/Home";
-import Profile from "../Pages/Profile/Profile";
-import UserFeed from "../Pages/Post/UserFeed";
-import CreatePost from "../Pages/Post/CreatePost";
 import Auth from "../Pages/Authentication";
 import Services from "../Services";
 import { getPostById } from "../Services/getPostById";
@@ -51,14 +46,20 @@ const router = createBrowserRouter(
           }}
         >
           <Route path="create" element={<Home.CreatePost />} />
-          <Route path="post/:postId" element={<Home.PostView />} errorElement={(err) => {
-            <div>{err}</div>
-          }} loader={async ({params}) => {
-            console.log("params.postId", params.postId);
-            const response = await getPostById(params.postId)
-            return defer({response })
-          }} />
         </Route>
+        <Route
+          path="post/:postId"
+          element={<Home.PostView />}
+          errorElement={(err) => {
+            <div>{err}</div>;
+          }}
+          loader={async ({ params }) => {
+            console.log("Loading PostView...");
+            const response = await getPostById(params.postId);
+            console.log(response);
+            return defer({ response });
+          }}
+        />
       </Route>
       <Route element={<Auth.Layout />}>
         <Route path="log-in" element={<Auth.LogIn />} />

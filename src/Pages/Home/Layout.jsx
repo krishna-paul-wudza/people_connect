@@ -23,5 +23,5 @@ const Container = styled.div`
   padding: 16px 160px;
   flex: 1;
   background-color: pink;
-  gap: 16px;
+  gap: 8px;
 `;
