@@ -2,14 +2,22 @@ import React from "react";
 import styled from "@emotion/styled";
 import { BaseURL } from "../../../Services/constants";
 import { useNavigate } from "react-router-dom";
+import Like from "./Action/Like";
+import Reply from "./Action/Reply";
 /**
+ * @typedef {object} ReplyProps
+ * @property {number} userId
+ * @property {string} text
+ * @property {string} userProfilePic
+ * @property {string} username
+ * 
  * @typedef {object} FeedCardProps
  * @property {string} _id
  * @property {string} postedBy
  * @property {string} text
  * @property {string} img
- * @property {} likes
- * @property {} replies
+ * @property {Array.<number>} likes
+ * @property {Array.<ReplyProps>} replies
  * @property {string} createdAt
  * @property {string} updatedAt
  * @property {number} __v
@@ -27,9 +35,15 @@ const FeedCard = (props) => {
     console.log("FeedCard result", result);
   };
   return (
-    <Container onClick={handleClick}>
-      <Image src={imageUrl} />
-      <Text>{props.text}</Text>
+    <Container>
+      <Wrapper onClick={handleClick}>
+        <Image src={imageUrl} />
+        <Text>{props.text}</Text>
+      </Wrapper>
+      <ActionsContainer>
+        <Like likesFrom={props.likes} postId={props._id} />
+        <Reply replies={props.replies} />
+      </ActionsContainer>
     </Container>
   );
 };
@@ -44,6 +58,12 @@ const Container = styled.div`
   background-color: white;
   border-radius: 8px;
   padding: 8px 20px;
+`;
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
 `;
 
 const Image = styled.div`
@@ -68,3 +88,11 @@ const Text = styled.p`
   line-height: 24px;
   text-align: justify;
 `;
+
+const ActionsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 32px;
+`

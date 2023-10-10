@@ -35,24 +35,23 @@ const Container = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  gap: 32px;
-  padding: 16px 32px;
+  gap: 16px;
+  padding: 8px 16px;
   background-color: whitesmoke;
 `;
 
 const ButtonLink = styled(NavLink)`
-  font-size: 20px;
+  font-size: 14px;
   font-weight: 400;
   color: darkgreen;
-  padding: 8px 16px;
-  margin: 0px 16px;
+  padding: 4px 8px;
   transition: all 0.2s linear;
   background-color: bisque;
   border: none;
   text-decoration: none;
 
   &:hover {
-    padding: 8px 32px;
+    padding: 4px 24px;
     margin: 0px;
     background-color: darkgreen;
     color: wheat;
@@ -60,17 +59,17 @@ const ButtonLink = styled(NavLink)`
   ${(props) =>
     props.active &&
     css`
-      border-bottom: 2px solid darkgreen;
+      border-bottom: 4px solid darkgreen;
     `}
 `;
 
 const Logo = styled.img`
-  height: 100px;
+  height: 60px;
   width: auto;
 `;
 
 const Title = styled.div`
-  font-size: 40px;
+  font-size: 24px;
   font-weight: 700;
   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
   color: purple;

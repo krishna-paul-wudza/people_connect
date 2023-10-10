@@ -1,13 +1,11 @@
 import React, { Suspense } from "react";
 import styled from "@emotion/styled";
-import { useSelector } from "react-redux";
 import { Await, Outlet, useLoaderData } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 import FeedCard from "../feed/FeedCard";
 
 const Profile = () => {
   const { feed } = useLoaderData();
-  console.log("feed", feed);
   return (
     <>
       <Container>

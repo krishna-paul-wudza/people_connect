@@ -1,23 +1,28 @@
 import { login } from "./login";
 import { register } from "./register";
 import { logout } from "./logout";
-import { getUserProfile } from './getUserProfile'
+import { getUserProfile } from "./getUserProfile";
 import { getMyProfile } from "./getMyProfile";
 import { followUser } from "./followUser";
 import { getMyPosts } from "./getMyPosts";
 import { getFeedPosts } from "./getFeedPosts";
 import { createPost } from "./createPost";
 import { getPostById } from "./getPostById";
+import { likePost } from "./likePost";
+import { replyOnPost } from "./replyOnPost";
 
-export default {
-    login,
-    register,
-    logout,
-    getMyProfile,
-    getUserProfile,
-    followUser,
-    getMyPosts,
-    getFeedPosts,
-    createPost,
-    getPostById
-}
+const Services = {
+  login,
+  register,
+  logout,
+  getMyProfile,
+  getUserProfile,
+  followUser,
+  getMyPosts,
+  getFeedPosts,
+  createPost,
+  getPostById,
+  likePost,
+  replyOnPost,
+};
+export default Services;

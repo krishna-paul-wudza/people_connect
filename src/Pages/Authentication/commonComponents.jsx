@@ -2,10 +2,10 @@ import styled from "@emotion/styled";
 
 export const MainLogoURL = "/assets/logo.png";
 
-export const Container = styled.div`
+export const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: stretch;
   flex: 1;
   background-color: whitesmoke;
@@ -17,12 +17,18 @@ export const CustomForm = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: stretch;
-  gap: 16px;
-  padding: 32px;
+  gap: 12px;
+  padding: 16px 32px;
+  flex: 1;
 `;
 
 export const MainLogo = styled.img`
-  height: 200px;
+  height: 150px;
   width: auto;
-  margin: 0px auto 32px auto;
+  margin: 16px auto;
 `;
+
+export const TextWithLink = styled.p`
+  margin: auto;
+  flex: 1;
+`

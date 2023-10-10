@@ -2,7 +2,10 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import services from "../../Services";
 
 const initial_value = {
+  isAuthenticating: false,
   isAuthenticated: false,
+  isLoggingOut: false,
+  syncingProfile: false,
   // API Parameters
   name: "",
   email: "",
@@ -76,7 +79,11 @@ export const AuthSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(userSignup.pending, (state, action) => {
+      state.isAuthenticating = true
+    });
     builder.addCase(userSignup.fulfilled, (state, action) => {
+      state.isAuthenticating = false;
       state.isAuthenticated = true;
       state.name = action.payload.name;
       state.username = action.payload.username;
@@ -84,9 +91,14 @@ export const AuthSlice = createSlice({
       state._id = action.payload._id;
     });
     builder.addCase(userSignup.rejected, (state, action) => {
+      state.isAuthenticating = false;
       state.isAuthenticated = false;
     });
+    builder.addCase(userLogin.pending, (state, action) => {
+      state.isAuthenticating = true;
+    });
     builder.addCase(userLogin.fulfilled, (state, action) => {
+      state.isAuthenticating = false;
       state.isAuthenticated = true;
       state.name = action.payload.name;
       state.username = action.payload.username;
@@ -94,7 +106,11 @@ export const AuthSlice = createSlice({
       state._id = action.payload._id;
     });
     builder.addCase(userLogin.rejected, (state, action) => {
+      state.isAuthenticating = false;
       state.isAuthenticated = false;
+    });
+    builder.addCase(syncUserProfile.pending, (state, action) => {
+      state.syncingProfile = true;
     });
     builder.addCase(syncUserProfile.fulfilled, (state, action) => {
       state.name = action.payload.name;
@@ -106,6 +122,13 @@ export const AuthSlice = createSlice({
       state.following = action.payload.following;
       state.profilePic = action.payload.profilePic;
       state.createdAt = action.payload.createdAt;
+      state.syncingProfile = false;
+    });
+    builder.addCase(syncUserProfile.rejected, (state, action) => {
+      state.syncingProfile = false;
+    });
+    builder.addCase(logoutUser.pending, (state, action) => {
+      state.isLoggingOut = true;
     });
     builder.addCase(logoutUser.fulfilled, (state, action) => {
       state.name = initial_value.name;
@@ -117,6 +140,10 @@ export const AuthSlice = createSlice({
       state.following = initial_value.following;
       state.profilePic = initial_value.profilePic;
       state.createdAt = initial_value.createdAt;
+      state.isLoggingOut = false;
+    });
+    builder.addCase(logoutUser.rejected, (state, action) => {
+      state.isLoggingOut = false;
     });
   },
 });
