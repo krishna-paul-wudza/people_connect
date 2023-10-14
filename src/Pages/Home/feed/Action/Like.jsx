@@ -1,27 +1,30 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Services from "../../../../Services";
+import { refreshPostById } from "../../../../Redux/AllSlice/FeedSlice";
+
 /**
- * @param {object} props
- * @param {Array.<number>} likesFrom
+ * @typedef {object} LikeProps
+ * @property {Array.<number>} likesFrom
+ * 
+ * @param {LikeProps} props
  * @returns
  */
 const Like = (props) => {
   const { _id } = useSelector((state) => state.auth);
   const { likesFrom, postId } = props;
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const hasUserLiked =
     Array.isArray(likesFrom) &&
     likesFrom.findIndex((userId) => userId === _id) > -1;
   const handleClickOnLike = async () => {
-    const res = await Services.likePost(postId);
-    if (res) {
-      navigate(0);
-    }
+    try {
+      const res = await Services.likePost(postId);
+      if (res === true) dispatch(refreshPostById());
+    } catch (error) {}
   };
   return (
     <Container>

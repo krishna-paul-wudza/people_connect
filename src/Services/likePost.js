@@ -4,7 +4,7 @@ import { ENDPOINTS, baseConfig } from "./constants";
 /**
  *
  * @param {number} postId
- * @returns {boolean}
+ * @returns {Promise<boolean>}
  */
 export const likePost = async (postId) => {
   const data = {};
@@ -15,5 +15,10 @@ export const likePost = async (postId) => {
   );
   if (result?.status === 200) {
     return true;
-  } else return false;
+  } else {
+    const reason = !!result?.response?.data?.message
+      ? result.response.data.message
+      : "Failed to like a post!";
+    throw new Error(reason);
+  }
 };

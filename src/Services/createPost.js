@@ -11,7 +11,12 @@ export const createPost = async (text, img) => {
         "Content-Type": "multipart/form-data",
       },
     });
-  if (result?.status === 200 && !!result?.data) {
+  if (result?.status === 201 && !!result?.data) {
     return result.data;
-  } else return null;
+  } else {
+    const reason = !!result?.response?.data?.message
+      ? result.response.data.message
+      : "Failed to create a post!";
+    throw new Error(reason);
+  }
 };

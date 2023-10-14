@@ -5,6 +5,9 @@ import TextField from "@mui/material/TextField";
 import Services from "../../../Services";
 import { Stack, Container, EditButton } from "./common";
 import styled from "@emotion/styled";
+import { useDispatch } from "react-redux";
+import { syncUserProfile } from "../../../Redux/AllSlice/AuthSlice";
+import { enqueueSnackbar } from "notistack";
 
 /**
  * @typedef ViewProps
@@ -14,22 +17,40 @@ import styled from "@emotion/styled";
  * @property {string} bio
  * @property {string} id
  * @property {string} profilePictureUrl
+ * @property {function} onComplete
  *
  * @param {ViewProps} props
  * @returns
  */
 const PersonalInfoEdit = (props) => {
-  const { name, email, username, bio, id } = props;
+  const { name, email, username, bio, id, onComplete } = props;
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       name,
       email,
       username,
-      bio
+      bio,
     },
     onSubmit: async (data) => {
-      const response = await Services.updateUser(id, data);
-      alert(response.message);
+      try {
+        const response = await Services.updateUser(id, data);
+        if (response !== null) {
+          enqueueSnackbar("User profile updated successfully", {
+            variant: "success",
+          });
+          dispatch(syncUserProfile());
+          if (!!onComplete) {
+            onComplete();
+          }
+        }
+      } catch (err) {
+        if (!!err.message) {
+          enqueueSnackbar(err.message, {
+            variant: "error",
+          });
+        }
+      }
     },
   });
   return (

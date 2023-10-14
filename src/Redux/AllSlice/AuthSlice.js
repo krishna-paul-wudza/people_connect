@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import services from "../../Services";
+import { enqueueSnackbar } from 'notistack'
 
 const initial_value = {
   isAuthenticating: false,
@@ -29,7 +30,14 @@ export const userSignup = createAsyncThunk(
     );
     if (res !== null) {
       window.localStorage.setItem("username", res.username);
+      enqueueSnackbar("User has been successfully signed up. Taking you in.", {
+        variant: "success"
+      });
       navigate("/profile");
+    } else {
+      enqueueSnackbar("Failed to sign up! Please try again.", {
+        variant: "error"
+      })
     }
     return res;
   }
@@ -41,7 +49,14 @@ export const userLogin = createAsyncThunk(
     const res = await services.login(inputState.username, inputState.password);
     if (res !== null) {
       window.localStorage.setItem("username", res.username);
+      enqueueSnackbar("User has been successfully signed in. Taking you in.", {
+        variant: "success",
+      });
       navigate("/profile");
+    } else {
+      enqueueSnackbar("Failed to sign in! Please try again.", {
+        variant: "error",
+      });
     }
     return res;
   }
@@ -51,14 +66,32 @@ export const syncUserProfile = createAsyncThunk(
   "auth/syncUserProfile",
   async () => {
     const res = await services.getMyProfile();
-    return res?.data;
+    if (res !== null) {
+      enqueueSnackbar("User profile synced!", {
+        variant: "info",
+      });
+    } else {
+      enqueueSnackbar("User profile sync failed!", {
+        variant: "warning",
+      });
+    }
+    return res;
   }
 );
 
 export const logoutUser = createAsyncThunk("auth/logoutUser", async (navigate) => {
   const res = await services.logout();
-  navigate("/log_in");
-  return res?.data;
+  if (res === true) {
+    navigate("/log_in");
+    enqueueSnackbar("User successfully logged out!", {
+      variant: "success",
+    });
+  } else {
+    enqueueSnackbar("Failed to log out!", {
+      variant: "warning",
+    });
+  }
+  return res;
 });
 
 export const AuthSlice = createSlice({

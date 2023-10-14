@@ -11,9 +11,9 @@ import AddCommentIcon from "@mui/icons-material/AddComment";
  * @property {string} username
  *
  * @typedef {object} Props
- * @param {Array.<ReplyProps>} replies
+ * @property {Array.<ReplyProps>} replies
  *
- * @param {object} props
+ * @param {Props} props
  * @returns
  */
 const Reply = (props) => {

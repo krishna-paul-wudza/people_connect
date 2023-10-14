@@ -3,8 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../Redux/AllSlice/UsersSlice";
 import styled from "@emotion/styled";
 import { Skeleton } from "@mui/material";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
+import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
+import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
 import { BaseURL } from "../../../Services/constants";
+import Services from "../../../Services";
+import { enqueueSnackbar } from "notistack";
 
 /**
  * @typedef {Object} UserFeedCardHeaderProps
@@ -36,11 +39,25 @@ const UserFeedCardHeader = (props) => {
     const profilePic =
       !!user.profilePic && String(user.profilePic).startsWith("/uploads")
         ? BaseURL + user.profilePic
-              : "/assets/user.png";
-      console.log(profilePic)
+        : "/assets/user.png";
     const followed = Array.isArray(user.followers)
       ? user.followers.includes(userId)
       : false;
+    const handleFollowUser = async () => {
+      try {
+        if (followed) return;
+        const response = await Services.followUser(id);
+        if (response === true)
+          enqueueSnackbar("You are now following " + user.name, {
+            variant: "info",
+          });
+        dispatch(loadUser(id));
+      } catch (error) {
+        enqueueSnackbar(error.message, {
+          variant: "warning",
+        });
+      }
+    };
     return (
       <RowContainer>
         <ProfileImage src={profilePic} />
@@ -48,10 +65,12 @@ const UserFeedCardHeader = (props) => {
           <NameLabel>{user.name}</NameLabel>
           <UsernameLabel>@{user.username}</UsernameLabel>
         </ColumnContainer>
-        <FollowButton>
-          <BookmarkIcon size={20} />
-          {followed ? "Following" : "Follow"}
-        </FollowButton>
+        {id !== userId && (
+          <FollowButton onClick={handleFollowUser}>
+            {followed ? <BookmarkAddedIcon size={20} /> : <BookmarkAddIcon size={20} />}
+            {followed ? "Following" : "Follow"}
+          </FollowButton>
+        )}
       </RowContainer>
     );
   }

@@ -4,18 +4,24 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import Services from "./Services";
 import { updateProfile } from "./Redux/AllSlice/AuthSlice";
+import { SnackbarProvider } from "notistack";
+import { refreshFeed } from "./Redux/AllSlice/FeedSlice";
 
 function App() {
   const dispatch = useDispatch();
   const fetchProfile = async () => {
-    const response = await Services.getMyProfile();
-    if (response !== null) dispatch(updateProfile(response));
+    try {
+      const response = await Services.getMyProfile();
+      if (response !== null) dispatch(updateProfile(response));
+    } catch (error) {}
   };
   useEffect(() => {
+    dispatch(refreshFeed());
     fetchProfile();
   }, []);
   return (
     <AppContainer>
+      <SnackbarProvider />
       <RootRouting />
     </AppContainer>
   );

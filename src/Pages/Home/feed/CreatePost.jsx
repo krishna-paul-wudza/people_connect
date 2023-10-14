@@ -2,6 +2,8 @@ import React, { useCallback, useRef, useState } from "react";
 import styled from "@emotion/styled";
 import Services from "../../../Services";
 import TopBar from "./TopBar";
+import { EditButton } from "../Profile/common";
+import { TextareaAutosize } from "@mui/material";
 const CreatePost = () => {
   const inputRef = useRef(null);
   const [imageUrl, setImageUrl] = useState("");
@@ -43,7 +45,7 @@ const CreatePost = () => {
           <Image src={imageUrl} onClick={onImageClick} />
         )}
         <TextAreaInput
-          rows={6}
+          minRows={6}
           placeholder="Your thoughts about this"
           value={text}
           onChange={handleTextAreaChange}
@@ -98,7 +100,7 @@ const Image = styled.div`
   }
 `;
 
-const TextAreaInput = styled.textarea`
+const TextAreaInput = styled(TextareaAutosize)`
   padding: 8px;
   border: 1px solid gray;
   outline: none;
@@ -113,10 +115,6 @@ const Row = styled.div`
   gap: 16px;
 `;
 
-const SubmitButton = styled.div`
-  cursor: pointer;
-  padding: 8px 16px;
+const SubmitButton = styled(EditButton)`
   width: 200px;
-  background-color: blue;
-  color: white;
 `;

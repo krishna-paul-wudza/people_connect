@@ -33,10 +33,6 @@ const router = createBrowserRouter(
         <Route
           path="feed"
           element={<Home.Feed />}
-          loader={async () => {
-            const response = await Services.getFeedPosts();
-            return defer({ feed: response });
-          }}
         >
           <Route path="create" element={<Home.CreatePost />} />
         </Route>
@@ -47,9 +43,7 @@ const router = createBrowserRouter(
             <div>{err}</div>;
           }}
           loader={async ({ params }) => {
-            console.log("Loading PostView...");
             const response = await getPostById(params.postId);
-            console.log(response);
             return defer({ response });
           }}
         />

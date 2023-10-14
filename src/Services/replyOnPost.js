@@ -5,7 +5,7 @@ import { ENDPOINTS, baseConfig } from "./constants";
  *
  * @param {number} postId
  * @param {string} text
- * @returns {boolean}
+ * @returns {Promise<boolean>}
  */
 export const replyOnPost = async (postId, text) => {
   const data = { text };
@@ -16,5 +16,10 @@ export const replyOnPost = async (postId, text) => {
   );
   if (result?.status === 200) {
     return true;
-  } else return false;
+  } else {
+    const reason = !!result?.response?.data?.message
+      ? result.response.data.message
+      : "Failed to reply on a post!";
+    throw new Error(reason);
+  }
 };

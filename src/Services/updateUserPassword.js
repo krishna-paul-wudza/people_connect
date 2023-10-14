@@ -18,5 +18,10 @@ export const updateUserPassword = async (userId, password) => {
   );
   if (result?.status === 200 && !!result?.data) {
     return result.data;
-  } else return null;
+  } else {
+    const reason = !!result?.response?.data?.message
+      ? result.response.data.message
+      : "Failed to update user's password.";
+    throw new Error(reason);
+  }
 };

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Like from "./Action/Like";
 import Reply from "./Action/Reply";
 import UserFeedCardHeader from "./UserFeedCardHeader";
+import humanDate from 'human-date'
 /**
  * @typedef {object} ReplyProps
  * @property {number} userId
@@ -31,7 +32,7 @@ import UserFeedCardHeader from "./UserFeedCardHeader";
  * @returns
  */
 const FeedCard = (props) => {
-  const { post, id} = props
+  const { post, id } = props
   const imageUrl = BaseURL + post.img;
   const navigate = useNavigate();
   
@@ -49,6 +50,7 @@ const FeedCard = (props) => {
       <ActionsContainer>
         <Like likesFrom={post.likes} postId={post._id} />
         <Reply replies={post.replies} />
+        <DateTimeText>{humanDate.relativeTime(post.createdAt)}</DateTimeText>
       </ActionsContainer>
     </Container>
   );
@@ -97,4 +99,9 @@ const ActionsContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
   gap: 32px;
+`
+const DateTimeText = styled.div`
+  flex: 1;
+  text-align: right;
+  color: #888888;
 `

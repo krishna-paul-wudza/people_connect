@@ -10,5 +10,10 @@ export const logout = async () => {
   const result = await axios.post(ENDPOINTS.user.logout, data, baseConfig);
   if (result?.status === 200) {
     return true;
-  } else return false;
+  } else {
+    const reason = !!result?.response?.data?.message
+      ? result.response.data.message
+      : "Failed to log out!";
+    throw new Error(reason);
+  }
 };

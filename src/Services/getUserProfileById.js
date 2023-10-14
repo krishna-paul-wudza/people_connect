@@ -21,5 +21,10 @@ export const getUserProfileById = async (id) => {
   const result = await axios.get(ENDPOINTS.user.userProfileById(id), baseConfig);
   if (result?.status === 200 && !!result?.data) {
     return result.data;
-  } else return null;
+  } else {
+    const reason = !!result?.response?.data?.message
+      ? result.response.data.message
+      : "Failed to get user profile by id!";
+    throw new Error(reason);
+  }
 };

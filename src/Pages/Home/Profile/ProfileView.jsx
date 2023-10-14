@@ -11,7 +11,6 @@ import { useSelector } from "react-redux";
 import PersonalInfoEdit from "./PersonalInfoEdit";
 import PersonalInfoView from "./PersonalInfoView";
 import ProfilePictureSection from "./ProfilePictureSection";
-import PasswordUpdate from "./PasswordUpdate";
 import SecuritySection from "./SecuritySection";
 
 const ProfileView = () => {
@@ -20,7 +19,6 @@ const ProfileView = () => {
   );
   const [isEditing, setIsEditing] = useState(false);
   const handleEditButton = () => {
-    console.log("_id", _id)
     setIsEditing((state) => !state);
   };
   return (
@@ -40,6 +38,9 @@ const ProfileView = () => {
             email={email}
             bio={bio}
             id={_id}
+            onComplete={() => {
+              setIsEditing(false);
+            }}
           />
         ) : (
           <PersonalInfoView

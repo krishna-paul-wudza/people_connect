@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ENDPOINTS, baseConfig } from "./constants";
+import { enqueueSnackbar } from 'notistack'
 
 /**
  * @typedef {Object} UserResponse
@@ -21,8 +22,22 @@ export const register = async (name, email, username, password) => {
     username,
     password,
   };
-  const result = await axios.post(ENDPOINTS.user.registration, data, baseConfig);
+  const result = await axios
+    .post(ENDPOINTS.user.registration, data, baseConfig)
+    .catch((err) => {
+      if (err?.response?.data?.message) {
+        enqueueSnackbar(err.response.data.message, {
+          variant: "error",
+        });
+      }
+      return err;
+    });
   if (result?.status === 201 && !!result?.data) {
     return result.data;
-  } else return null;
+  } else {
+    const reason = !!result?.response?.data?.message
+      ? result.response.data.message
+      : "Failed to log out!";
+    throw new Error(reason);
+  }
 };

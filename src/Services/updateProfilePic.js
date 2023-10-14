@@ -22,5 +22,10 @@ export const updateProfilePic = async (userId, img) => {
   );
   if (result?.status === 200 && !!result?.data) {
     return result.data;
-  } else return null;
+  } else {
+    const reason = !!result?.response?.data?.message
+      ? result.response.data.message
+      : "Failed to update profile picture.";
+    throw new Error(reason);
+  }
 };

@@ -10,38 +10,24 @@ import {
 import FeedCard from "./FeedCard";
 import { useSelector } from "react-redux";
 const Feed = () => {
-  const { feed } = useLoaderData();
-  const {_id} = useSelector(state => state.auth)
+  const allPosts = useSelector((state) => state.feed);
+  const { _id } = useSelector((state) => state.auth);
   const { pathname } = useLocation();
-  const navigate = useNavigate();
   const isExact = pathname === "/feed";
+  const posts = Object.values(allPosts)
+  //   .sort((a, b) =>
+  //   Date(a.updatedAt).localeCompare(Date(b.updatedAt))
+  // );
   if (!isExact) {
     return <Outlet />;
   }
-  const handleCreatePostButtonClick = () => {
-    navigate("create");
-  };
-  return (
-    <Suspense
-      fallback={
-        <div>
-          <Spinner />
-        </div>
-      }
-    >
-      <Await
-        resolve={feed}
-        errorElement={<div>Error Occured</div>}
-        children={(posts) => {
-          if (posts === null || posts.length === 0) {
-            return <div>No posts available in feed.</div>;
-          } else
-            return posts.map((post) => <FeedCard key={post._id} post={post} id={_id} />);
-        }}
-      />
-    </Suspense>
-  );
+  if (posts === null || posts.length === 0) {
+    return <div>No posts available in feed.</div>;
+  } else {
+    return posts.map((post) => (
+      <FeedCard key={post._id} post={post} id={_id} />
+    ));
+  }
 };
 
 export default Feed;
-
