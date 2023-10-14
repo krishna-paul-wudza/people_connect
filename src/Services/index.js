@@ -10,7 +10,9 @@ import { createPost } from "./createPost";
 import { getPostById } from "./getPostById";
 import { likePost } from "./likePost";
 import { replyOnPost } from "./replyOnPost";
-
+import { updateProfilePic } from "./updateProfilePic";
+import { updateUser } from "./updateUser";
+import { updateUserPassword } from "./updateUserPassword";
 const Services = {
   login,
   register,
@@ -24,5 +26,8 @@ const Services = {
   getPostById,
   likePost,
   replyOnPost,
+  updateProfilePic,
+  updateUser,
+  updateUserPassword,
 };
 export default Services;

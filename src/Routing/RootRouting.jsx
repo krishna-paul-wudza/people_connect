@@ -20,10 +20,6 @@ const router = createBrowserRouter(
         path=""
         element={<Home.Landing />}
         errorElement={<Navigate to="/log-in" />}
-        loader={async () => {
-          const response = await Services.getMyProfile();
-          return defer({ response });
-        }}
       />
       <Route element={<Home.Layout />}>
         <Route
@@ -33,10 +29,7 @@ const router = createBrowserRouter(
             const response = await Services.getMyPosts();
             return defer({ feed: response });
           }}
-        >
-          <Route path="edit" element={<Home.ProfileEdit />} />
-          <Route path="view" element={<Home.ProfileView />} />
-        </Route>
+        />
         <Route
           path="feed"
           element={<Home.Feed />}

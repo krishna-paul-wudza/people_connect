@@ -1,5 +1,5 @@
-import ProfileEdit from "./Profile/ProfileEdit";
-import ProfileView from "./Profile/ProfileView";
+import PersonalInfoEdit from "./Profile/PersonalInfoEdit";
+import PersonalInfoView from "./Profile/PersonalInfoView";
 import Profile from "./Profile";
 import Layout from "./Layout";
 import Feed from "./feed";
@@ -8,8 +8,8 @@ import Landing from './Landing'
 import PostView from "./feed/PostView";
 
 export default {
-  ProfileEdit,
-  ProfileView,
+  ProfileEdit: PersonalInfoEdit,
+  ProfileView: PersonalInfoView,
   Profile,
   Layout,
   Feed,

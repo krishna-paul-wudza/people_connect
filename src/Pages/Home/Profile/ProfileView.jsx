@@ -1,111 +1,64 @@
-import React from "react";
-import { useSelector } from "react-redux";
 import styled from "@emotion/styled";
+import React, { useState } from "react";
+import {
+  EditButton,
+  ProfilePic,
+  Container,
+  Title,
+  TitleContainer,
+} from "./common";
+import { useSelector } from "react-redux";
+import PersonalInfoEdit from "./PersonalInfoEdit";
+import PersonalInfoView from "./PersonalInfoView";
+import ProfilePictureSection from "./ProfilePictureSection";
 
 const ProfileView = () => {
-  const { name, username, email, bio, createdBy, followers, following } = useSelector(
+  const { name, username, profilePic, email, bio, _id } = useSelector(
     (state) => state.auth
   );
+  const [isEditing, setIsEditing] = useState(false);
+  const handleEditButton = () => {
+    console.log("_id", _id)
+    setIsEditing((state) => !state);
+  };
   return (
-    <Stack>
-      <Stack isColumn justifyContent="flex-start" alignItems="stretch">
-        <Stack>
-          <Name>{name}</Name>
-        </Stack>
-        <Stack>
-          <SmallText>Username: @{username}</SmallText>
-        </Stack>
-        <Stack>
-          <SmallText>Email: {email}</SmallText>
-        </Stack>
-        <Stack>
-          <SmallText>Bio: {bio}</SmallText>
-        </Stack>
-        <Stack>
-          <SmallText>Account Created: {createdBy}</SmallText>
-        </Stack>
-        <Stack justifyContent="flex-start">
-          <StatsButton label="followers" value={followers.length} />
-          <StatsButton label="following" value={following.length} />
-        </Stack>
-      </Stack>
-      <Stack isColumn>
-        <ProfilePic src="https://placehold.co/400" />
-        <EditButton>Edit Profile</EditButton>
-      </Stack>
-    </Stack>
+    <Wrapper>
+      <ProfilePictureSection profilePic={profilePic} id={_id} />
+      <Container>
+        <TitleContainer>
+          <Title>Personal Information</Title>
+          <EditButton onClick={handleEditButton}>
+            {isEditing ? "Cancel" : "Edit"}
+          </EditButton>
+        </TitleContainer>
+        {isEditing ? (
+          <PersonalInfoEdit
+            name={name}
+            username={username}
+            email={email}
+            bio={bio}
+            id={_id}
+          />
+        ) : (
+          <PersonalInfoView
+            name={name}
+            username={username}
+            email={email}
+            bio={bio}
+          />
+        )}
+      </Container>
+    </Wrapper>
   );
 };
 
 export default ProfileView;
 
-const Stack = styled.div`
+const Wrapper = styled.div`
   display: flex;
-  flex-direction: ${(props) => (!!props?.isColumn ? "column" : "row")};
-  justify-content: ${(props) => props.justifyContent ?? "space-between"};
-  align-items: ${(props) => props.alignItems ?? "center"};
-  gap: 8px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 16px;
+  background-color: whitesmoke;
 `;
-
-const ProfilePic = styled.div`
-  width: 200px;
-  height: 200px;
-  background-image: url(${(props) => props.src});
-  background-position: center;
-  background-size: contain;
-  border-radius: 100px;
-`;
-
-const Name = styled.div`
-  font-size: 32px;
-  font-weight: bold;
-  color: black;
-`;
-
-const SmallText = styled.div`
-  font-size: 20px;
-  color: black;
-`;
-
-const EditButton = styled.div`
-  padding: 8px 16px;
-  text-align: center;
-  cursor: pointer;
-  background-color: blue;
-  color: whitesmoke;
-  border-radius: 4px;
-`;
-
-const StatsButtonWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  border-radius: 4px;
-  width: 200px;
-  background-color: darkgray;
-`;
-
-const StatsButtonLabel = styled.div`
-  font-size: 16px;
-  color: whitesmoke;
-  margin-left: 16px;
-`;
-
-const StatsButtonValue = styled.div`
-  font-size: 16px;
-  font-weight: bold;
-  color: whitesmoke;
-  text-align: center;
-  padding: 8px;
-  border-left: 1px solid darkgray;
-`;
-
-const StatsButton = ({ label, value }) => {
-  return (
-    <StatsButtonWrapper>
-      <StatsButtonLabel>{label}</StatsButtonLabel>
-      <StatsButtonValue>{value}</StatsButtonValue>
-    </StatsButtonWrapper>
-  );
-};

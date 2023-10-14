@@ -1,30 +1,18 @@
-import React, { Suspense, useEffect } from "react";
-import { Await, useLoaderData, Navigate } from "react-router-dom";
+import React from "react";
+import { Navigate } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { updateProfile } from "../../Redux/AllSlice/AuthSlice";
+import { useSelector } from "react-redux";
 
 const Landing = () => {
-  const { response } = useLoaderData();
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if (response !== null) dispatch(updateProfile(response));
-  }, [response]);
-  return (
-    <Suspense fallback={<Spinner />}>
-      <Await
-        resolve={response}
-        errorElement={<div>Error Occured</div>}
-        children={(response) => {
-          if (response === null) {
-            <Navigate to="/log_in" />;
-          } else {
-            return <Navigate to="/feed" />;
-          }
-        }}
-      />
-    </Suspense>
-  );
+  const { isAuthenticating, isAuthenticated } = useSelector(state => state.auth)
+  if (isAuthenticating) {
+    return <Spinner />
+  }
+  if (isAuthenticated) {
+    return <Navigate to="/feed" />;
+  } else {
+    return <Navigate to="/log_in" />;
+  }
 };
 
 export default Landing;

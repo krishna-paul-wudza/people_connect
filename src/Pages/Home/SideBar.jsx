@@ -35,8 +35,8 @@ const Demo = () => {
         Create New Post
       </ButtonLink>
       <ButtonLink
-        to="/profile/view"
-        active={String(pathname.startsWith("/profile/"))}
+        to="/profile"
+        active={String(pathname === "/profile")}
       >
         <AccountCircleIcon size={20} />
         Profile

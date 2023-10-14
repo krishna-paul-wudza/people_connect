@@ -31,7 +31,6 @@ const FeedCard = (props) => {
   
   const handleClick = () => {
     const postUrl = "/post/" + props._id;
-    console.log("postURL: ", postUrl)
     navigate(postUrl);
   };
   return (
@@ -70,7 +69,7 @@ const Image = styled.div`
   display: block;
   width: 100%;
   height: auto;
-  min-height: 500px;
+  min-height: 700px;
   position: relative;
   background-image: url(${(props) => props.src});
   background-size: contain;

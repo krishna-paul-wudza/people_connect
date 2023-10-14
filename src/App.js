@@ -1,8 +1,19 @@
-import styled from '@emotion/styled';
-import RootRouting from './Routing/RootRouting';
-import { ThemeColors } from './Theme/color';
+import styled from "@emotion/styled";
+import RootRouting from "./Routing/RootRouting";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import Services from "./Services";
+import { updateProfile } from "./Redux/AllSlice/AuthSlice";
 
 function App() {
+  const dispatch = useDispatch();
+  const fetchProfile = async () => {
+    const response = await Services.getMyProfile();
+    if (response !== null) dispatch(updateProfile(response));
+  };
+  useEffect(() => {
+    fetchProfile();
+  }, []);
   return (
     <AppContainer>
       <RootRouting />

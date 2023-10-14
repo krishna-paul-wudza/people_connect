@@ -3,13 +3,14 @@ import styled from "@emotion/styled";
 import { Await, Outlet, useLoaderData } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 import FeedCard from "../feed/FeedCard";
+import ProfileView from "./ProfileView";
 
 const Profile = () => {
   const { feed } = useLoaderData();
   return (
     <>
       <Container>
-        <Outlet />
+        <ProfileView />
       </Container>
       <Suspense
         fallback={
@@ -43,5 +44,5 @@ const Container = styled.div`
   align-items: stretch;
   background-color: whitesmoke;
   border-radius: 8px;
-  padding: 16px 32px;
+  padding: 16px 0px;
 `;
