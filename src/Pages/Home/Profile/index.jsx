@@ -4,9 +4,11 @@ import { Await, Outlet, useLoaderData } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 import FeedCard from "../feed/FeedCard";
 import ProfileView from "./ProfileView";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
   const { feed } = useLoaderData();
+  const { _id } = useSelector((state) => state.auth);
   return (
     <>
       <Container>
@@ -26,7 +28,9 @@ const Profile = () => {
             if (feed.length === 0) {
               return <div>No posts done by you.</div>;
             } else {
-              return feed.map((post) => <FeedCard key={post._id} {...post} />);
+              return feed.map((post) => (
+                <FeedCard key={post._id} post={post} id={_id} />
+              ));
             }
           }}
         />

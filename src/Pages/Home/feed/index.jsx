@@ -8,8 +8,10 @@ import {
   useNavigate,
 } from "react-router-dom";
 import FeedCard from "./FeedCard";
+import { useSelector } from "react-redux";
 const Feed = () => {
   const { feed } = useLoaderData();
+  const {_id} = useSelector(state => state.auth)
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const isExact = pathname === "/feed";
@@ -34,7 +36,7 @@ const Feed = () => {
           if (posts === null || posts.length === 0) {
             return <div>No posts available in feed.</div>;
           } else
-            return posts.map((post) => <FeedCard key={post._id} {...post} />);
+            return posts.map((post) => <FeedCard key={post._id} post={post} id={_id} />);
         }}
       />
     </Suspense>

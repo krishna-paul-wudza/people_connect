@@ -4,6 +4,7 @@ import { BaseURL } from "../../../Services/constants";
 import { useNavigate } from "react-router-dom";
 import Like from "./Action/Like";
 import Reply from "./Action/Reply";
+import UserFeedCardHeader from "./UserFeedCardHeader";
 /**
  * @typedef {object} ReplyProps
  * @property {number} userId
@@ -11,7 +12,7 @@ import Reply from "./Action/Reply";
  * @property {string} userProfilePic
  * @property {string} username
  * 
- * @typedef {object} FeedCardProps
+ * @typedef {object} PostProps
  * @property {string} _id
  * @property {string} postedBy
  * @property {string} text
@@ -21,27 +22,33 @@ import Reply from "./Action/Reply";
  * @property {string} createdAt
  * @property {string} updatedAt
  * @property {number} __v
+ * 
+ * @typedef {object} FeedCardProps
+ * @property {PostProps} post
+ * @property {string} id
  *
  * @param {FeedCardProps} props
  * @returns
  */
 const FeedCard = (props) => {
-  const imageUrl = BaseURL + props.img;
+  const { post, id} = props
+  const imageUrl = BaseURL + post.img;
   const navigate = useNavigate();
   
   const handleClick = () => {
-    const postUrl = "/post/" + props._id;
+    const postUrl = "/post/" + post._id;
     navigate(postUrl);
   };
   return (
     <Container>
+      <UserFeedCardHeader id={post.postedBy} userId={id} />
       <Wrapper onClick={handleClick}>
         <Image src={imageUrl} />
-        <Text>{props.text}</Text>
+        <Text>{post.text}</Text>
       </Wrapper>
       <ActionsContainer>
-        <Like likesFrom={props.likes} postId={props._id} />
-        <Reply replies={props.replies} />
+        <Like likesFrom={post.likes} postId={post._id} />
+        <Reply replies={post.replies} />
       </ActionsContainer>
     </Container>
   );
@@ -76,10 +83,6 @@ const Image = styled.div`
   background-repeat: no-repeat;
   background-position: center;
   transition: all 0.2s ease;
-
-  &:hover {
-    background-size: cover;
-  }
 `;
 
 const Text = styled.p`

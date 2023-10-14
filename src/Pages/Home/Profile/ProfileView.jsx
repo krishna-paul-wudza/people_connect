@@ -11,6 +11,8 @@ import { useSelector } from "react-redux";
 import PersonalInfoEdit from "./PersonalInfoEdit";
 import PersonalInfoView from "./PersonalInfoView";
 import ProfilePictureSection from "./ProfilePictureSection";
+import PasswordUpdate from "./PasswordUpdate";
+import SecuritySection from "./SecuritySection";
 
 const ProfileView = () => {
   const { name, username, profilePic, email, bio, _id } = useSelector(
@@ -48,6 +50,7 @@ const ProfileView = () => {
           />
         )}
       </Container>
+      <SecuritySection id={_id} username={username} />
     </Wrapper>
   );
 };

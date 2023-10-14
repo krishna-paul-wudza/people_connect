@@ -5,6 +5,7 @@ export const ENDPOINTS = {
     logout: "/users/logout",
     myProfile: "/users/profile",
     userProfile: (username) => `/users/profile/${username}`,
+    userProfileById: (id) => `/users/byId/${id}`,
     follow: (userId) => `/users/follow/${userId}`,
     update: (userId) => `/users/update/user/${userId}`,
     updateProfilePic: (userId) => `/users/update/profilePic/${userId}`,

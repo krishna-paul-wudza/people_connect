@@ -13,6 +13,7 @@ import { replyOnPost } from "./replyOnPost";
 import { updateProfilePic } from "./updateProfilePic";
 import { updateUser } from "./updateUser";
 import { updateUserPassword } from "./updateUserPassword";
+import { getUserProfileById } from "./getUserProfileById";
 const Services = {
   login,
   register,
@@ -29,5 +30,6 @@ const Services = {
   updateProfilePic,
   updateUser,
   updateUserPassword,
+  getUserProfileById,
 };
 export default Services;
