@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../Redux/AllSlice/UsersSlice";
+import { syncUserProfile } from "../../../Redux/AllSlice/AuthSlice";
 import styled from "@emotion/styled";
 import { Skeleton } from "@mui/material";
 import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
@@ -52,6 +53,7 @@ const UserFeedCardHeader = (props) => {
             variant: "info",
           });
         dispatch(loadUser(id));
+        dispatch(syncUserProfile());
       } catch (error) {
         enqueueSnackbar(error.message, {
           variant: "warning",
@@ -67,7 +69,11 @@ const UserFeedCardHeader = (props) => {
         </ColumnContainer>
         {id !== userId && (
           <FollowButton onClick={handleFollowUser}>
-            {followed ? <BookmarkAddedIcon size={20} /> : <BookmarkAddIcon size={20} />}
+            {followed ? (
+              <BookmarkAddedIcon size={20} />
+            ) : (
+              <BookmarkAddIcon size={20} />
+            )}
             {followed ? "Following" : "Follow"}
           </FollowButton>
         )}

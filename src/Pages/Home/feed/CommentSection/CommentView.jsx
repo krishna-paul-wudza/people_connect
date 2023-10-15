@@ -1,8 +1,9 @@
 import styled from "@emotion/styled";
 import React from "react";
 import ProfileAvatar from "../../Profile/ProfileAvatar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Skeleton } from "@mui/material";
+import { syncUserProfile } from "../../../../Redux/AllSlice/AuthSlice";
 
 /**
  * @typedef {object} CommentViewProps
@@ -16,21 +17,23 @@ import { Skeleton } from "@mui/material";
  * @returns
  */
 const CommentView = (props) => {
-    const { [props.userId]: user } = useSelector((state) => state.users);
-    if (!user) {
-        return (
+  const { [props.userId]: user } = useSelector((state) => state.users);
+  const dispatch = useDispatch();
+  if (!user) {
+    dispatch(syncUserProfile());
+    return (
+      <RowContainer>
+        <Skeleton variant="circle" width={50} height={50} />
+        <ColumnContainer>
           <RowContainer>
-            <Skeleton variant="circle" width={50} height={50} />
-            <ColumnContainer>
-              <RowContainer>
-                <Skeleton variant="text" />
-                <Skeleton variant="text" />
-              </RowContainer>
-              <Skeleton variant="text" />
-            </ColumnContainer>
+            <Skeleton variant="text" />
+            <Skeleton variant="text" />
           </RowContainer>
-        );
-    }
+          <Skeleton variant="text" />
+        </ColumnContainer>
+      </RowContainer>
+    );
+  }
   return (
     <RowContainer>
       <ProfileAvatar
