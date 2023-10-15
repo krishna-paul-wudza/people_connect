@@ -4,6 +4,7 @@ import ProfileAvatar from "../../Profile/ProfileAvatar";
 import { useDispatch, useSelector } from "react-redux";
 import { Skeleton } from "@mui/material";
 import { syncUserProfile } from "../../../../Redux/AllSlice/AuthSlice";
+import { loadUser } from "../../../../Redux/AllSlice/UsersSlice";
 
 /**
  * @typedef {object} CommentViewProps
@@ -20,7 +21,7 @@ const CommentView = (props) => {
   const { [props.userId]: user } = useSelector((state) => state.users);
   const dispatch = useDispatch();
   if (!user) {
-    dispatch(syncUserProfile());
+    dispatch(loadUser(props.userId));
     return (
       <RowContainer>
         <Skeleton variant="circle" width={50} height={50} />
