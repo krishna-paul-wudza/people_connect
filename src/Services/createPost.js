@@ -1,6 +1,24 @@
 import axios from "axios";
 import { ENDPOINTS, baseConfig } from "./constants";
 
+/**
+ * @typedef {object} Response
+ * @property {string} message
+ * @property {object} newPost
+ * @property {string} newPost.postedBy
+ * @property {string} newPost.text
+ * @property {string} newPost.img
+ * @property {} newPost.likes
+ * @property {string} newPost._id
+ * @property {} newPost.replies
+ * @property {string} newPost.createdAt
+ * @property {string} newPost.updatedAt
+ * @property {number} newPost.__v
+ * 
+ * @param {*} text 
+ * @param {*} img 
+ * @returns {Promise<Response>}
+ */
 export const createPost = async (text, img) => {
     const data = new FormData();
     data.append('text', text);

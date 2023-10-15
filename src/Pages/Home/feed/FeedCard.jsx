@@ -80,7 +80,7 @@ const Image = styled.div`
   height: auto;
   min-height: 700px;
   position: relative;
-  background-image: url(${(props) => props.src});
+  background-image: ${(props) => `url("${props.src}")`};
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;

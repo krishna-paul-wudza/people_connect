@@ -4,7 +4,13 @@ import Services from "../../../Services";
 import TopBar from "./TopBar";
 import { EditButton } from "../Profile/common";
 import { TextareaAutosize } from "@mui/material";
+import { enqueueSnackbar } from "notistack";
+import { useDispatch } from "react-redux";
+import { refreshPostById } from "../../../Redux/AllSlice/FeedSlice";
+import { useNavigate } from "react-router-dom";
 const CreatePost = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const inputRef = useRef(null);
   const [imageUrl, setImageUrl] = useState("");
   const [image, setImage] = useState();
@@ -22,8 +28,18 @@ const CreatePost = () => {
     }
   };
   const handleSubmit = async (txt, imgBlob) => {
-    const res = await Services.createPost(txt, imgBlob);
-    console.log(res);
+    try {
+      const res = await Services.createPost(txt, imgBlob);
+      enqueueSnackbar(res.message, {
+        variant: "success"
+      });
+      dispatch(refreshPostById(res.newPost._id))
+      navigate("/post/"+res.newPost._id)
+    } catch (error) {
+      enqueueSnackbar(error.message, {
+        variant: "error"
+      })
+    }
   };
   const handleTextAreaChange = (e) => {
     setText(e.target.value);
