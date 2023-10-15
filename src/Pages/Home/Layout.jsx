@@ -1,20 +1,32 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { Outlet } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import SideBar from "./SideBar";
+import LoadingComponent from "../LoadingComponent";
 
 const Layout = () => {
-  return (
-    <GridContainer>
-      <SideBarContainer>
-        <SideBar />
-      </SideBarContainer>
-      <OutletContainer>
-        <Outlet />
-      </OutletContainer>
-    </GridContainer>
+  const { isAuthenticating, isAuthenticated } = useSelector(
+    (state) => state.auth
   );
+  if (isAuthenticating) {
+    return <LoadingComponent />
+  }
+  if (!isAuthenticated) {
+    return <Navigate to="/log-in" />;
+  } else {
+    return (
+      <GridContainer>
+        <SideBarContainer>
+          <SideBar />
+        </SideBarContainer>
+        <OutletContainer>
+          <Outlet />
+        </OutletContainer>
+      </GridContainer>
+    );
+  }
 };
 
 export default Layout;

@@ -14,6 +14,7 @@ import { updateProfilePic } from "./updateProfilePic";
 import { updateUser } from "./updateUser";
 import { updateUserPassword } from "./updateUserPassword";
 import { getUserProfileById } from "./getUserProfileById";
+import { getUserPosts } from "./getUserPosts";
 const Services = {
   login,
   register,
@@ -31,5 +32,6 @@ const Services = {
   updateUser,
   updateUserPassword,
   getUserProfileById,
+  getUserPosts
 };
 export default Services;

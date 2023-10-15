@@ -10,13 +10,13 @@ import { syncUserProfile } from "../../../Redux/AllSlice/AuthSlice";
  * @typedef {Object} ProfilePictureSectionProps
  * @property {string} profilePic
  * @property {id} id
+ * @property {boolean} showEdit
  *
  * @param {ProfilePictureSectionProps} props
  * @returns
  */
 const ProfilePictureSection = (props) => {
-  const { id, profilePic } = props;
-  console.log(props);
+  const { id, profilePic, showEdit } = props;
   const inputRef = useRef(null);
   const [imageUrl, setImageUrl] = useState(profilePic);
   const [image, setImage] = useState();
@@ -61,7 +61,7 @@ const ProfilePictureSection = (props) => {
         ) : (
           <ProfilePic src={prepareImageUrl(imageUrl)} onClick={onImageClick} />
         )}
-        <ProfilePictureActionButtonContainer>
+        {!!showEdit && <ProfilePictureActionButtonContainer>
           <EditButton onClick={onImageClick}>Change Photo</EditButton>
           {!!image && <EditButton onClick={onSaveImage}>Save Photo</EditButton>}
           <ProfilePictureHelperText>
@@ -70,7 +70,7 @@ const ProfilePictureSection = (props) => {
             JPG and PNG allowed.
           </ProfilePictureHelperText>
           <HiddenInput ref={inputRef} type="file" onChange={onImageChange} />
-        </ProfilePictureActionButtonContainer>
+        </ProfilePictureActionButtonContainer>}
       </ProfilePictureContainer>
     </Container>
   );

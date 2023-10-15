@@ -1,17 +1,20 @@
 import React from "react";
 import { BaseURL } from "../../../Services/constants";
 import styled from "@emotion/styled";
+import { useNavigate } from "react-router-dom";
 
 /**
  * @typedef {object} ProfileAvatarProps
  * @property {string} profilePic
  * @property {"big" | "small" | "medium" | number} size
  * @property {string} title
+ * @property {string} id
  *
  * @param {ProfileAvatarProps} props
  * @returns
  */
 const ProfileAvatar = (props) => {
+  const navigate = useNavigate();
   const profilePic =
     !!props.profilePic && String(props.profilePic).startsWith("/uploads")
       ? BaseURL + props.profilePic
@@ -28,7 +31,19 @@ const ProfileAvatar = (props) => {
         return size;
     }
   };
-  return <ProfileImage src={profilePic} title={props.title} size={getSize(props.size)} />;
+  const handleClick = () => {
+    if (props?.id) {
+      navigate("/user/" + props.id);
+    }
+  };
+  return (
+    <ProfileImage
+      src={profilePic}
+      title={props.title}
+      size={getSize(props.size)}
+      onClick={handleClick}
+    />
+  );
 };
 
 export default ProfileAvatar;

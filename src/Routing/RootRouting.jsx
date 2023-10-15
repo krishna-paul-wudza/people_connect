@@ -11,6 +11,7 @@ import Home from "../Pages/Home";
 import Auth from "../Pages/Authentication";
 import Services from "../Services";
 import { getPostById } from "../Services/getPostById";
+import { enqueueSnackbar } from "notistack";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,16 +25,30 @@ const router = createBrowserRouter(
       <Route element={<Home.Layout />}>
         <Route
           path="profile"
-          element={<Home.Profile />}
+          element={<Home.Profile self />}
           loader={async () => {
-            const response = await Services.getMyPosts();
-            return defer({ feed: response });
+            const user = await Services.getMyProfile();
+            const feed = await Services.getMyPosts();
+            return defer({ feed, user, _id: user._id });
           }}
         />
         <Route
-          path="feed"
-          element={<Home.Feed />}
-        >
+          path="user/:userId"
+          element={<Home.Profile />}
+          loader={async ({params}) => {
+            try {
+              const user = await Services.getUserProfileById(params.userId);
+              const feed = await Services.getUserPosts(params.userId)
+              return defer({ user, feed, _id: user._id });
+            } catch (err) {
+              enqueueSnackbar("Failed to load user profile.", {
+                variant: "error"
+              })
+              throw new Error(err.message)
+            }
+          }}
+        />
+        <Route path="feed" element={<Home.Feed />}>
           <Route path="create" element={<Home.CreatePost />} />
         </Route>
         <Route

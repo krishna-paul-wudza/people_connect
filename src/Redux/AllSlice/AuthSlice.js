@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import services from "../../Services";
 import { enqueueSnackbar } from 'notistack'
+import { refreshFeed } from "./FeedSlice";
 
 const initial_value = {
   isAuthenticating: false,
@@ -21,7 +22,7 @@ const initial_value = {
 
 export const userSignup = createAsyncThunk(
   "auth/userSignup",
-  async ({ inputState, navigate }) => {
+  async ({ inputState, navigate }, thunkApi) => {
     const res = await services.register(
       inputState.name,
       inputState.email,
@@ -33,7 +34,8 @@ export const userSignup = createAsyncThunk(
       enqueueSnackbar("User has been successfully signed up. Taking you in.", {
         variant: "success"
       });
-      navigate("/profile");
+      thunkApi.dispatch(refreshFeed());
+      navigate("/feed")
     } else {
       enqueueSnackbar("Failed to sign up! Please try again.", {
         variant: "error"
@@ -45,14 +47,15 @@ export const userSignup = createAsyncThunk(
 
 export const userLogin = createAsyncThunk(
   "auth/userLogin",
-  async ({ inputState, navigate }) => {
+  async ({ inputState, navigate }, thunkApi) => {
     const res = await services.login(inputState.username, inputState.password);
     if (res !== null) {
       window.localStorage.setItem("username", res.username);
       enqueueSnackbar("User has been successfully signed in. Taking you in.", {
         variant: "success",
       });
-      navigate("/profile");
+      thunkApi.dispatch(refreshFeed());
+      navigate("/feed");
     } else {
       enqueueSnackbar("Failed to sign in! Please try again.", {
         variant: "error",
@@ -82,7 +85,7 @@ export const syncUserProfile = createAsyncThunk(
 export const logoutUser = createAsyncThunk("auth/logoutUser", async (navigate) => {
   const res = await services.logout();
   if (res === true) {
-    navigate("/log_in");
+    navigate("/");
     enqueueSnackbar("User successfully logged out!", {
       variant: "success",
     });
@@ -173,6 +176,7 @@ export const AuthSlice = createSlice({
       state.following = initial_value.following;
       state.profilePic = initial_value.profilePic;
       state.createdAt = initial_value.createdAt;
+      state.isAuthenticated = false
       state.isLoggingOut = false;
     });
     builder.addCase(logoutUser.rejected, (state, action) => {

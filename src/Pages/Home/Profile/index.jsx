@@ -1,19 +1,38 @@
 import React, { Suspense } from "react";
 import styled from "@emotion/styled";
-import { Await, Outlet, useLoaderData } from "react-router-dom";
+import { Await, useLoaderData } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 import FeedCard from "../feed/FeedCard";
 import ProfileView from "./ProfileView";
-import { useSelector } from "react-redux";
 
-const Profile = () => {
-  const { feed } = useLoaderData();
-  const { _id } = useSelector((state) => state.auth);
+/**
+ * @typedef {object} ProfileProps
+ * @property {boolean} self
+ *
+ * @param {ProfileProps} props
+ * @returns
+ */
+const Profile = (props) => {
+  const { feed, _id, user } = useLoaderData();
   return (
     <>
-      <Container>
-        <ProfileView />
-      </Container>
+      <Suspense
+        fallback={
+          <Container>
+            <Spinner />
+          </Container>
+        }
+      >
+        <Await
+          resolve={user}
+          errorElement={<div>Failed to display user profile.</div>}
+          children={(user) => (
+            <Container>
+              <ProfileView user={user} self={props.self} />
+            </Container>
+          )}
+        />
+      </Suspense>
       <Suspense
         fallback={
           <Container>

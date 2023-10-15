@@ -23,7 +23,7 @@ const Like = (props) => {
   const handleClickOnLike = async () => {
     try {
       const res = await Services.likePost(postId);
-      if (res === true) dispatch(refreshPostById());
+      if (res === true) dispatch(refreshPostById(postId));
     } catch (error) {}
   };
   return (

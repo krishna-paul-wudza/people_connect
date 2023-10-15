@@ -37,6 +37,7 @@ const LikeSection = (props) => {
         return (
           <ProfileAvatar
             key={user?._id}
+            id={user?._id}
             profilePic={user?.profilePic || ""}
             title={user?.name}
             size="20px"

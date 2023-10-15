@@ -14,6 +14,7 @@ export const ENDPOINTS = {
   posts: {
     getPostById: (postId) => `/posts/get/${postId}`,
     getMyPosts: "/posts/myPosts",
+    getUserPosts: (id) => `/posts/userPosts/${id}`,
     getFeed: "/posts/feed",
     createPost: "/posts/create",
     likePost: (id) => `/posts/like/${id}`,
@@ -22,9 +23,9 @@ export const ENDPOINTS = {
   },
 };
 
+export const BaseURL = "http://localhost:5000";
+
 export const baseConfig = {
-  baseURL: "http://localhost:5000/api",
+  baseURL: BaseURL + "/api",
   withCredentials: true
 }
-
-export const BaseURL = "http://localhost:5000"

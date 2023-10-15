@@ -33,7 +33,11 @@ const CommentView = (props) => {
     }
   return (
     <RowContainer>
-      <ProfileAvatar profilePic={props.userProfilePic} size="medium" />
+      <ProfileAvatar
+        id={props._id}
+        profilePic={props.userProfilePic}
+        size="medium"
+      />
       <ColumnContainer>
         <RowContainer>
           <CommenterName>{user.name}</CommenterName>
