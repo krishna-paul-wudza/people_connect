@@ -10,6 +10,7 @@ import {
 import { TextField } from "@mui/material";
 import { useFormik } from "formik";
 import Services from "../../../Services";
+import { enqueueSnackbar } from "notistack";
 
 /**
  * @typedef {Object} PasswordUpdateProps
@@ -52,6 +53,9 @@ const PasswordUpdate = (props) => {
             "newPasswordRepeat",
             "Your password does not match."
           );
+          enqueueSnackbar("Your password does not match.", {
+            variant: "error",
+          });
         } else {
           const updateResult = await Services.updateUserPassword(
             id,
@@ -59,8 +63,14 @@ const PasswordUpdate = (props) => {
           );
           if (updateResult !== null) {
             setIsUpdating(false);
+            enqueueSnackbar("Password updated successfully", {
+              variant: "success"
+            })
           } else {
             actions.setFieldError("newPassword", "Failed to update password.");
+            enqueueSnackbar("Failed to update password.", {
+              variant: "error"
+            })
           }
         }
       }
